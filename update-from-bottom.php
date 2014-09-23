@@ -3,14 +3,14 @@
 Plugin Name: Update from Bottom
 Plugin URI: http://labs.urre.me
 Description: Show two extra buttons (Scroll to top and Publish/Update) in the bottom of the screen when user scrolls near bottom. Suitable for posts and pages with a lot of meta boxes, or when edit.php tends to get very long.
-Version: 1.0.1
+Version: 1.0.2
 Author: Urban Sanden
 Author URI: http://urre.me
 Author Email: hej@urre.me
 License: GPL2
 */
 
-/*  Copyright 2104 Urban Sanden (email: hej@urre.me)
+/*  Copyright 2014 Urban Sanden (email: hej@urre.me)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -48,38 +48,41 @@ class UpdatefromBottom {
 
     public function register_admin_styles() {
 
-        # Don't show buttons on main dashboard page, i.e enqueue any styles
-        if( 'index.php' == $hook )
-               return;
+		# Where are we?
+		$screen = get_current_screen();
 
-        if (is_admin()) {
+		# Enqueue style on post ( any post type including custom ) new / edit screens only
+        if ('post' == $screen->base):
             wp_enqueue_style( 'updatefrombottom-plugin-styles', plugins_url( 'update-from-bottom/css/update-from-bottom.admin.css' ) );
-        }
+        endif;
     }
 
     public function register_admin_scripts() {
 
-        # Don't show buttons on main dashboard page, i.e enqueue any scripts
-        if( 'index.php' == $hook )
-               return;
+		# Where are we?
+		$screen = get_current_screen();
 
-        # Enqueue script
-        wp_enqueue_script( 'updatefrombottom-admin-script', plugins_url( 'update-from-bottom/js/update-from-bottom.admin.js' ), array('jquery') );
+		# Enqueue script on post ( any post type including custom ) new / edit screens only
+        if ('post' == $screen->base) :
+			wp_enqueue_script( 'updatefrombottom-admin-script', plugins_url( 'update-from-bottom/js/update-from-bottom.admin.js' ), array('jquery') );
 
-        # Localize strings to js
-        $js_data = array(
-            'update'     => __( 'Update', 'updatefrombottom' ),
-            'publish'    => __( 'Publish', 'updatefrombottom' ),
-            'publishing' => __( 'Publishing...', 'updatefrombottom' ),
-            'updating'   => __( 'Updating...', 'updatefrombottom' ),
-            'totop'      => __( 'To top', 'updatefrombottom' ),
-        );
+			# UI strings
+			$js_data = array(
+				'update'     => __( 'Update', 'updatefrombottom' ),
+				'publish'    => __( 'Publish', 'updatefrombottom' ),
+				'publishing' => __( 'Publishing...', 'updatefrombottom' ),
+				'updating'   => __( 'Updating...', 'updatefrombottom' ),
+				'totop'      => __( 'To top', 'updatefrombottom' ),
+			);
 
-        wp_localize_script('updatefrombottom-admin-script', 'updatefrombottomParams', $js_data);
+            # Localize strings to javascript
+			wp_localize_script('updatefrombottom-admin-script', 'updatefrombottomParams', $js_data);
 
+        endif;
     }
-
-
 }
 
-$ufb = new UpdatefromBottom();
+# Only use in wp-admin
+if (is_admin()):
+	$ufb = new UpdatefromBottom();
+endif;
