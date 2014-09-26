@@ -28,9 +28,7 @@ License: GPL2
 
 class UpdatefromBottom {
 
-    protected $allowed_types;
-
-    function __construct() {
+      function __construct() {
 
         # Load plugin text domain
         add_action( 'init', array( $this, 'plugin_textdomain' ) );
@@ -65,7 +63,7 @@ class UpdatefromBottom {
 
     public function register_admin_styles() {
 
-        # Only load js css we are are editing a post (build in or custom post type) or page
+        # Only load css we are are editing a post (build in or custom post type) or page
         if($this->x_get_current_post_type()) :
 
             wp_enqueue_style( 'updatefrombottom-plugin-styles', plugins_url( 'update-from-bottom/css/update-from-bottom.admin.css' ) );

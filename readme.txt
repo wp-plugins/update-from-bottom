@@ -40,7 +40,7 @@ This plugin is available in the following languages:
 == Changelog ==
 
 = 1.0.3 =
-Small change. WordPress version 3.1 no longer a requirement
+Small change. WordPress version 3.1 no longer a requirement. Minor changes to button box alignment.
 
 = 1.0.2 =
 Bug fix. Buttons showed up on more screens than needed. Now only posts and pages
